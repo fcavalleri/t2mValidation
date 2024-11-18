@@ -36,10 +36,10 @@ STEP <- 2*pi/n_days; TETA <- seq(STEP/2, 2*pi - STEP/2, STEP);
 MAT_REG_366 <- matrix(nrow=n_days,ncol=4)
 MAT_REG_366[,1] <- sin(TETA); MAT_REG_366[,2] <- cos(TETA); MAT_REG_366[,3] <- sin(2*TETA); MAT_REG_366[,4] <- cos(2*TETA)
 
-daily_ts <- array(0,c(n_lon,n_lat,n_days))
+daily_ts <- array(NA,c(n_lat,n_lon,n_days))
 
-for(i in 1:n_lon){
-    for(j in 1:n_lat){
+for(i in 1:n_lat){
+    for(j in 1:n_lon){
         if (j == 1) {writeLines(paste0(i,"/",n_lon))}
         if(is.na(monthly_temp[i,j,1])==TRUE){daily_ts[i,j,] <- rep(NA,n_days)}
         else{
