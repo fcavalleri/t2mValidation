@@ -1,6 +1,7 @@
 library(ncdf4)
 library(lubridate)
 library(matrixStats)
+library(raster)
 
 rean <- "..."
 varname <- "..."
@@ -10,9 +11,14 @@ filename <- paste0(path_in,"Climatologies_1991-2020.nc")
 
 # Get monthly climatologies 
 
-nc <- nc_open(filename,write=FALSE)
-monthly_temp <- ncvar_get( nc, varname, start=NA, count=NA, verbose=FALSE )
-nc_close( nc )
+r <- stack(filename)
+n_lon <- ncol(r); n_lat <- nrow(r)
+
+monthly_temp <- array(NA,c(n_lat,n_lon,12))
+
+for (m in 1:12){
+    monthly_temp[,,m] <- as.matrix(r[[m]])
+}
 
 n_lon <- dim(monthly_temp)[1]
 n_lat <- dim(monthly_temp)[2]
